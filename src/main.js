@@ -4,9 +4,9 @@ import data from './data/rickandmorty/rickandmorty.js';
 const cardsContainer = document.querySelector("#cardsContainer")
 const characters = data.results;
 
-function gerarCards(cards) {
-  const arrayCards = cards.map((item) => {
-    const cardsList = `
+function gerarCards(caracters) {
+  const templateCards = caracters.map((item) => {
+    const cardTemplate = `
         <div class="cards">
             <img class="cardsImg" src="${item.image}" alt="${item.name}">
             <ul class="cardText" style="list-style: none">                       
@@ -18,11 +18,11 @@ function gerarCards(cards) {
             </ul>                
         </div>
         `;
-    return cardsList;
+    return cardTemplate;
 
   }).join("")
 
-  cardsContainer.innerHTML = arrayCards
+  cardsContainer.innerHTML = templateCards
 }
 gerarCards(characters);
 
@@ -38,11 +38,13 @@ const selectGenero = document.querySelector("#opcoesGenero");
 const generoFiltrado = () => {
   const gender = selectGenero.value
   const resultadoGenero = filtrarGenero(characters, gender)
-  const calculo = calculoAgregado(characters.length, resultadoGenero.length);
+  //linha 40 mexi no PF
+  const resultadoporgeneroeespecie= filtrarEspecie(resultadoGenero,"Alien")
+  const calculo = calculoAgregado(characters.length, resultadoporgeneroeespecie.length);
   document.getElementById("exibirCalculo").innerHTML =
     "Essa categoria representa " + calculo + "% dos personagens"
 
-  gerarCards(resultadoGenero)
+  gerarCards(resultadoporgeneroeespecie)
 };
 selectGenero.addEventListener("change", generoFiltrado);
 
